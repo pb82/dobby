@@ -4,13 +4,12 @@
 #include <Preferences.h>
 
 struct WiFiCredentials {
-    const char *ssid;
-    const char *password;
+    String ssid;
+    String password;
 };
 
 class AppSettings {
 public:
-    bool hasWiFiCredentials();
     void resetAllSettings();
     bool getWiFiCredentials(WiFiCredentials *target);
 private:
