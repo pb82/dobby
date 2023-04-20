@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>WiFi Setup</title>
+    <style>
+        h1,
+        p {
+            text-align: center;
+        }
+
+        div.content {
+            border: 1px solid grey;
+            padding: 5px;
+        }
+
+        div.column {
+            display: inline-block;
+            width: 10%;
+        }
+
+        select {
+            width: fit-content;
+        }
+
+        body {
+            background-color: bisque;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Welcome!</h1>
+    <p>First, lets connect to your Wi-Fi.</p>
+    <div class="content">
+        <form method="POST" action="/submit">
+            <div class="grid">
+                <div class="row">
+                    <div class="column">
+                        <label>Network</label>
+                    </div>
+                    <div class="column">
+                        <select id="networks">
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column">
+                        <label>Password</label>
+                    </div>
+                    <div class="column">
+                        <input name="password" type="password">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script>
+        (async function () {
+            const response = await fetch('/networks');
+            const found = await response.json();
+            let select = document.getElementById("networks");
+            for (network of found.networks) {
+                let opt = document.createElement('option');
+                opt.value = network;
+                opt.innerHTML = network;
+                select.appendChild(opt);
+            }
+        })();
+    </script>
+</body>
+
+</html>
