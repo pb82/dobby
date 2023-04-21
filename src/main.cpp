@@ -30,9 +30,8 @@ void setup()
   }
   else
   {
-    Serial.println("no wifi credentials found");
     AccessPoint::start();
-    Serial.println("access point running");
+    Serial.println("AP Mode");
   }
 }
 

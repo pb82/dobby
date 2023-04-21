@@ -4,7 +4,6 @@
 namespace AccessPoint
 {
     void start();
-    void stop();
-} // namespace AccessPoint
+}
 
 #endif
