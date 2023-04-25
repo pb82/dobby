@@ -20,9 +20,9 @@ void setup()
 {
   Serial.begin(SERIAL_BAUD);
 
+  setupFilesystem();
   delay(1000);
 
-  setupFilesystem();
   WiFiCredentials credentials;
   if (settings.getWiFiCredentials(&credentials))
   {

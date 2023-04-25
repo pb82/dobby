@@ -39,7 +39,9 @@ void AppSettings::setWiFiCredentials(WiFiCredentials *from)
 
 void AppSettings::resetAllSettings()
 {
+    prefs.begin("wifi");
     prefs.clear();
+    prefs.end();
 }
 
 void WiFiCredentials::fromUrlEncoded(const char *encoded)

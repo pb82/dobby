@@ -199,10 +199,12 @@ namespace AccessPoint
                             settings.setWiFiCredentials(&creds);
 
                             String contents;
-                            contents.concat("OK");
-                            HttpResponse response(200, "text/plain", contents);
+                            contents.concat("<html><body><h1>Thanks!</h1></body></html>");
+                            HttpResponse response(200, "text/html", contents);
                             client.write(response.body.c_str());
                             client.println();
+                            delay(1000);
+                            ESP.restart();
                         }
                     }
                 }
