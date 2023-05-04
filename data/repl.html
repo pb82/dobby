@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Interaction</title>
+    <style>
+        body {
+            background-color: bisque;
+        }
+
+        h1, p {
+            text-align: center;
+            font-family: sans-serif;
+        }
+
+        label {
+            font-weight: bold;
+            font-family: sans-serif;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input {
+            width: auto;
+            resize: none;
+            flex: 1;
+            border: 1px solid black;
+        }
+
+        .content > button {
+            border: 1px solid black;
+            height: 24px;
+            margin-left: 2px;
+            margin-top: 1px;
+            margin-bottom: 1px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+<div class="content">
+    <ul id="history"></ul>
+    <input type="text" id="input"class="input">
+</div>
+<script>
+    (function () {
+        const history = document.getElementById("history");
+
+        function addSuccess(cmd) {
+            const command = document.createElement("li");
+            command.innerText = cmd;
+            command.style.fontStyle = "bold";
+            history.appendChild(command);
+        }
+
+        function addError(err) {
+            const error = document.createElement("li");
+            error.innerText = err;
+            error.style.color = "red";
+            error.style.fontStyle = "bold";
+            history.appendChild(error);
+        }
+
+        function submit(value) {
+            fetch("/submit", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "text/plain",
+                },
+                body: value,
+            }).then((response) => {
+                if (response.status < 200 || response.status >= 300) {
+                    addError(`command: ${value}: network error. Received ${response.status} status code.`);
+                    return;
+                }
+                addSuccess(value);
+            }).catch(addError)
+        }
+
+        window.onload = function () {
+            const input = document.getElementById("input");
+            input.onkeydown = function (e) {
+                if (e.code == "Enter") {
+                    let value = input.value;
+                    value = value.replaceAll("\n", "");
+                    value = value.replaceAll("\r", "");
+                    if (value === "") {
+                        return;
+                    }
+                    input.value = "";
+                    submit(value);
+                }
+            }
+        }
+    })();
+</script>
+</body>
+
+</html>
